@@ -7,6 +7,25 @@ const spotifyApi = new SpotifyWebApi({
   redirectUri: process.env.SPOTIFY_REDIRECT_URI
 });
 
+export function formatText  (text) {
+  // Define the sections to format
+  const sections = [
+    'Instrumental Break', 'Verse', 'Pre-Chorus', 'Chorus', 'Post-Chorus', 'Interlude', 'Bridge', 'Outro'
+  ];
+
+  // Create a regex pattern that matches any of the sections
+  const sectionPattern = new RegExp(`\\[(${sections.join('|')}):`, 'g');
+
+  // Replace the sections with formatted versions
+  const formattedText = text
+    .replace(sectionPattern, '\n\n[$1:')
+    .replace(/([a-zA-Z0-9])\(/g, '$1 (') // Add space before parentheses
+    .replace(/\)\(/g, ') (') // Add space between parentheses
+    .replace(/(\w)([A-Z])/g, '$1\n$2'); // Add new line between words in CamelCase
+
+  return formattedText.trim();
+};
+
 export function generateCodeVerifier() {
   return randomBytes(32).toString('base64url');
 }
@@ -73,3 +92,28 @@ export async function getCurrentlyPlaying() {
   }
   return null;
 } 
+export async function refreshAccessToken(refreshToken) {
+  const params = new URLSearchParams();
+  params.append('grant_type', 'refresh_token');
+  params.append('refresh_token', refreshToken);
+
+  const response = await fetch('https://accounts.spotify.com/api/token', {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Basic ' + (Buffer.from(process.env.SPOTIFY_CLIENT_ID + ':' + process.env.SPOTIFY_CLIENT_SECRET).toString('base64')),
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: params
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error('Failed to refresh access token');
+  }
+
+  return {
+    accessToken: data.access_token,
+    refreshToken: data.refresh_token // Note: Spotify doesn't always return a new refresh token
+  };
+}

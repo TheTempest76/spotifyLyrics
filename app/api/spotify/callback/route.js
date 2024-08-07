@@ -12,33 +12,43 @@ export async function GET(request) {
   }
 
   try {
-    const accessToken = await getAccessToken(code, codeVerifier);
+    const { accessToken, refreshToken } = await getAccessToken(code, codeVerifier);
     
     // Get the currently playing song
-    const currentTrack = await getCurrentlyPlaying();
+    const currentTrack = await getCurrentlyPlaying(accessToken);
     
     if (!currentTrack) {
       return NextResponse.redirect(new URL('/', request.url));
     }
 
     const { songTitle, artistName } = currentTrack;
-    const tit = songTitle.split('-')[0].trim().toLowerCase()
-    // Redirect to a new page that will handle fetching lyrics
+    const tit = songTitle.split('-')[0].trim().toLowerCase();
+
+    // Redirect to the lyrics page
     const response = NextResponse.redirect(new URL(`/spotify-sync/lyrics?songTitle=${encodeURIComponent(tit)}&artistName=${encodeURIComponent(artistName)}`, request.url));
     
+    // Set cookies
     response.cookies.set('spotifyAccessToken', accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
-      maxAge: 60 * 60, // 1 hour
-      path: '/', 
+      maxAge: 3600, // 1 hour
+      path: '/',
+    });
+
+    response.cookies.set('spotifyRefreshToken', refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 30 * 24 * 60 * 60, // 30 days
+      path: '/',
     });
 
     return response;
   } catch (error) {
     console.error('Error getting access token:', error);
-    return NextResponse.json({ 
-      error: 'Failed to get access token', 
+    return NextResponse.json({
+      error: 'Failed to get access token',
       details: error.message,
       stack: error.stack
     }, { status: 500 });
