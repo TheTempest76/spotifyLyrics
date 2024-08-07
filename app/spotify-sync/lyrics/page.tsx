@@ -41,7 +41,7 @@ const LyricsPage = () => {
 
   return (
     <div>
-      <h1 className='flex justify-center text-3xl font-extrabold'>Lyrics for {songTitle} by {artistName}</h1>
+      <h1 className='flex justify-center text-3xl font-extrabold'>currently listening to {songTitle} by {artistName}</h1>
       {error ? (
         <div>Error: {error}</div>
       ) : (

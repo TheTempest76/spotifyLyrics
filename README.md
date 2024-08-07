@@ -20,17 +20,15 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
+this project has two parts-
 
-To learn more about Next.js, take a look at the following resources:
+1. a page where user can ask for a song's lyrics with song name and artist and a scraper fetches it
+2. a spotify sync page where users can authenticate themselves and authorize my spotify app by initiating authorization flow with pkce. This works like this :
+   my server creates a code verifier and hashes it and makes a code challenge.
+   codeverifier is stored in cookie. an authorization url is created then my web app redirects it to spotify's authentication page and authorization page with the my client id, response type, redirect url, state, scope, code challenge, and code challenge method i.e sha256
+   my app recieves the callback and then makes a post request to spotify's token endpoint and then spotify sends an access token and a refresh token back
+3. the users are then redirected to a page where the lyrics of the song they are currently listening to is fetched and displayed from the lyrics fetching endpoint
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### currently deployed at https://deez-f8ol-thetempest76s-projects.vercel.app/
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+![a screenshot of the spotify-sync/lyrics page](image.png)
