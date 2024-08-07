@@ -31,4 +31,4 @@ this project has two parts-
 
 ### currently deployed at https://deez-f8ol-thetempest76s-projects.vercel.app/
 
-![a screenshot of the spotify-sync/lyrics page](image.png)
+![a screenshot of the spotify-sync/lyrics page](image-1.png)
