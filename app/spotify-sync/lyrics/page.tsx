@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import Lyrics from '../../components/lyricsCard.tsx';
+import Lyrics from '../../cumponents/lyricscard'
 
 const LyricsPage = () => {
   const searchParams = useSearchParams();

@@ -1,6 +1,6 @@
 'use client';
 import React, { FormEvent, useState } from 'react';
-import Lyricss from '../components/lyricsCard';
+import Lyricss from '../cumponents/lyricscard';
 export default function Lyrics() {
   const [songTitle, setSongTitle] = useState<string>('');
   const [artistName, setArtistName] = useState<string>('');
