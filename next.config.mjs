@@ -23,9 +23,14 @@ const nextConfig = {
             `.replace(/\s{2,}/g, ' ').trim()
           },
         ],
+        
       },
     ];
   },
+  webpack: (config) => {
+    config.resolve.alias['@'] = path.resolve(__dirname, 'app');
+    return config;
+  }
 };
 
 export default nextConfig;
