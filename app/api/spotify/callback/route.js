@@ -13,7 +13,7 @@ export async function GET(request) {
 
   try {
     const { accessToken, refreshToken } = await getAccessToken(code, codeVerifier);
-    
+    console.log(accessToken)
     // Get the currently playing song
     const currentTrack = await getCurrentlyPlaying(accessToken);
     

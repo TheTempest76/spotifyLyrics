@@ -75,7 +75,11 @@ export async function getAccessToken(code, codeVerifier) {
     const data = await response.json();
     spotifyApi.setAccessToken(data.access_token);
     spotifyApi.setRefreshToken(data.refresh_token);
-    return data.access_token;
+
+    return {
+      accessToken: data.access_token,
+      refreshToken: data.refresh_token,
+    };
   } catch (error) {
     console.error('Error getting access token:', error);
     throw error;

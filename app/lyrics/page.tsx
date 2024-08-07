@@ -1,6 +1,5 @@
 'use client';
 import React, { FormEvent, useState } from 'react';
-import { formatText } from '../lib/spotify';
 import Lyricss from '../components/lyricsCard';
 export default function Lyrics() {
   const [songTitle, setSongTitle] = useState<string>('');

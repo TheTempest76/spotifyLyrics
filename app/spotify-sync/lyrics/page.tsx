@@ -1,8 +1,9 @@
-'use client'
-import { useEffect, useState } from 'react';
+'use client';
+
+import React, { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { formatText } from '@/app/lib/spotify';
 import Lyrics from '@/app/components/lyricsCard';
+
 const LyricsPage = () => {
   const searchParams = useSearchParams();
   const songTitle = searchParams.get('songTitle');
@@ -10,20 +11,23 @@ const LyricsPage = () => {
 
   const [lyrics, setLyrics] = useState('');
   const [error, setError] = useState<string>('');
-  
+
   useEffect(() => {
     if (songTitle && artistName) {
       const fetchLyrics = async () => {
         try {
-            const response = await fetch(`/api/getLyrics?songTitle=${encodeURIComponent(songTitle)}&artistName=${encodeURIComponent(artistName)}`);
-            if (!response.ok) {
+          const response = await fetch(`/api/getLyrics?songTitle=${encodeURIComponent(songTitle)}&artistName=${encodeURIComponent(artistName)}`);
+          if (!response.ok) {
             throw new Error('Failed to fetch lyrics');
           }
           const data = await response.json();
           setLyrics(data.lyrics);
         } catch (error) {
-          if (error instanceof Error )setError(error.message);
-          else setError('an unknown error occured')
+          if (error instanceof Error) {
+            setError(error.message);
+          } else {
+            setError('An unknown error occurred');
+          }
         }
       };
 
@@ -41,10 +45,16 @@ const LyricsPage = () => {
       {error ? (
         <div>Error: {error}</div>
       ) : (
-        <Lyrics lyrics = {lyrics} />
+        <Lyrics lyrics={lyrics} />
       )}
     </div>
   );
 };
 
-export default LyricsPage;
+const LyricsPageWithSuspense = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <LyricsPage />
+  </Suspense>
+);
+
+export default LyricsPageWithSuspense;
