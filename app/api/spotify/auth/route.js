@@ -1,15 +1,8 @@
 import { NextResponse } from 'next/server';
-
+import { generateCodeChallenge ,generateCodeVerifier } from '../../../lib/spotify';
 import { getAuthorizationUrl } from '../../../lib/spotify'
-import crypto from 'crypto';
 
-function generateCodeVerifier() {
-  return crypto.randomBytes(32).toString('base64url');
-}
 
-function generateCodeChallenge(verifier) {
-  return crypto.createHash('sha256').update(verifier).digest('base64url');
-}
 export async function GET() {
     const code_verifier = generateCodeVerifier();
     const code_challenge = generateCodeChallenge(code_verifier);

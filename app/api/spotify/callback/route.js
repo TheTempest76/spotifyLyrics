@@ -29,7 +29,7 @@ export async function GET(request) {
     
     // Set cookies
     response.cookies.set('spotifyAccessToken', accessToken, {
-      httpOnly: true,
+      httpOnly: false,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
       maxAge: 3600, // 1 hour
@@ -37,7 +37,7 @@ export async function GET(request) {
     });
 
     response.cookies.set('spotifyRefreshToken', refreshToken, {
-      httpOnly: true,
+      httpOnly: false,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
       maxAge: 30 * 24 * 60 * 60, // 30 days

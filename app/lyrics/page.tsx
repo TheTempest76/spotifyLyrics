@@ -45,7 +45,11 @@ export default function Lyrics() {
 
   return (
     <main className="container mx-auto p-4">
+      <div className='flex justify-center'>
       <h1 className="text-3xl font-bold mb-4">Lyrics Fetcher</h1>
+      </div>
+      <div className='flex justify-center'>
+
       <form onSubmit={handleSubmit} className="mb-4">
         <input
           type="text"
@@ -67,11 +71,13 @@ export default function Lyrics() {
           Fetch Lyrics
         </button>
       </form>
+      </div>
+
+      
       {loading && <p>Loading...</p>}
       {error && <p className="text-red-500">{error}</p>}
       {lyrics && (
         <div >
-          <h2 className="text-xl font-semibold mb-2">Lyrics:</h2>
                   <Lyricss lyrics = {lyrics} />
         </div>
       )}

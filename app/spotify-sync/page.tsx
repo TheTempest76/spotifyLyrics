@@ -1,18 +1,17 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { useCookies } from 'react-cookie';
 import { useRouter } from 'next/navigation';
-
+import Cookies from 'js-cookie';
 export default function Home() {
-  const [cookies] = useCookies(['spotifyAccessToken']);
+  const spotifyAccessToken = Cookies.get('spotifyAccessToken');
   const [spotifyAuthed, setSpotifyAuthed] = useState<boolean>(false);
   const router = useRouter();
-
+  console.log( 'token' , spotifyAccessToken)
   useEffect(() => {
-    if (cookies.spotifyAccessToken) {
+    if (spotifyAccessToken) {
       setSpotifyAuthed(true);
     }
-  }, [cookies.spotifyAccessToken]);
+  }, [spotifyAccessToken]);
 
   const handleSpotifyAuth = async () => {
     if (spotifyAuthed) {
@@ -26,7 +25,7 @@ export default function Home() {
         }
       } catch (error) {
         console.error('Error fetching current track:', error);
-        // If there's an error (e.g., token expired), initiate new auth
+
         initiateSpotifyAuth();
       }
     } else {
