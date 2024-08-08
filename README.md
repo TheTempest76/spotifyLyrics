@@ -29,6 +29,7 @@ this project has two parts-
    my app recieves the callback and then makes a post request to spotify's token endpoint and then spotify sends an access token and a refresh token back
 3. the users are then redirected to a page where the lyrics of the song they are currently listening to is fetched and displayed from the lyrics fetching endpoint
 
-### currently deployed at https://deez-f8ol-thetempest76s-projects.vercel.app/
+### currently deployed at https://lyrical-eta.vercel.app/
 
-![a screenshot of the spotify-sync/lyrics page](image-3.png)
+![a screenshot of the spotify-sync/lyrics page](image-4.png)
+![a screenshot of the root page](image.png)
